@@ -1,0 +1,22 @@
+@startuml
+start
+:Enter google.com;
+if (Is in HSTS?) then (Yes)
+  :Use HTTPS;
+else (No)
+  :Use HTTP;
+endif
+if (Is in DNS cache?) then (Yes)
+  :Get from cache;
+else (No)
+  :Get TCP stream;
+  :TLS handshake request;
+  :TLS handshake response;
+  :HTTP request;
+  :HTTP response;
+endif
+:Parse HTML and CSS;
+:Render the page;
+:Show the page;
+stop
+@enduml

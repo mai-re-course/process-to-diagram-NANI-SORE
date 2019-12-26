@@ -1,0 +1,26 @@
+@startuml
+interface User
+rectangle FrontEnd {
+    component Browser
+    component Cache
+    component HSTS
+    interface HTTP
+}
+rectangle DNS {
+    component Dns_Server
+}
+rectangle BackEnd {
+    component Server
+} 
+
+Browser --> User
+Browser --> Cache
+Browser --> HSTS
+Browser --> HTTP
+Browser --> Dns_Server
+
+Dns_Server --> HTTP
+Cache      --> HTTP
+HSTS       --> HTTP
+Server     --> HTTP
+@enduml

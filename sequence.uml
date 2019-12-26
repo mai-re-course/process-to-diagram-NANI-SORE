@@ -1,0 +1,27 @@
+@startuml
+actor  User
+boundary Browser
+entity DNS_server
+entity Target_server
+
+User -> Browser : User makes a request
+Browser -> Browser : Check if in HSTS
+Browser -> Browser : Check if domain is in DNS cache
+alt Domain is not in DNS cache
+    Browser --> DNS_server : ARP request
+    DNS_server --> Browser : ARP answer
+end
+Browser -> Browser : Get TCP stream
+Browser -> Target_server : TLS handshake request
+Target_server -> Browser : TLS handshake response
+Browser -> Target_server : HTTP request
+alt Data changed from the last time
+    Target_server -> Browser : Send HTTP response to user
+else
+    Target_server -> Browser : Send 'Not Modified' response
+    Browser -> Browser : Get data from cache
+end
+Browser -> Browser : Parse HTML and CSS
+Browser -> Browser : Render the page
+Browser -> User : Show the page
+@enduml
